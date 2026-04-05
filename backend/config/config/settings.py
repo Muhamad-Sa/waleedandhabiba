@@ -123,15 +123,17 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
+# Static files
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "public" / "static"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STORAGES = {
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
