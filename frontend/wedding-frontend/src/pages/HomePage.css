@@ -341,7 +341,7 @@
 
     /* Full-width Maps button on mobile */
     .fancy-maps-link {
-        width: 100%;
+        width: 90%;
         justify-content: center;
         margin-top: 12px;
     }
