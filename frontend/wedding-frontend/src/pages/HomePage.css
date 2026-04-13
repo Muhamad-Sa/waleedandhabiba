@@ -1,383 +1,542 @@
-.home-page {
-    min-height: 100vh;
-    background: #efe7e1;
-    font-family: "Georgia", "Times New Roman", serif;
+/* ═══════════════════════════════════════════════════════
+   Waleed & Habiba — Luxury Wedding Invitation
+   Design: text placed directly on invitation background
+   Color: warm rose-brown palette from the image
+═══════════════════════════════════════════════════════ */
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap");
+
+:root {
+    --rose:       #7b3f52;
+    --rose-deep:  #5c2d3e;
+    --rose-mid:   #9c5b6e;
+    --rose-light: rgba(123, 63, 82, 0.72);
+    --rose-hint:  rgba(123, 63, 82, 0.50);
+    --gold-txt:   #a0784e;
+    --ivory:      #fdf8f2;
+
+    --font-serif: "Cormorant Garamond", "Georgia", serif;
+    --font-sans:  "Montserrat", "Arial", sans-serif;
+    --transition: 0.26s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.personal-invite-section {
-    height: 100vh;
+* { box-sizing: border-box; }
+
+.home-page {
     min-height: 100vh;
-    background: #efe7e1;
-    padding: 24px;
+    background: #f0e0da;
+    font-family: var(--font-serif);
+}
+
+/* ═══════════════════════════════════════════════════════
+   LOADING / ERROR STATES
+═══════════════════════════════════════════════════════ */
+.invite-state-shell {
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    box-sizing: border-box;
+    background: linear-gradient(135deg, #f5e6e0 0%, #ead5cc 100%);
+    padding: 24px;
 }
 
-.fancy-invite-stage {
-    position: relative;
-    width: min(1180px, 100%);
-    height: min(92vh, 760px);
+.invite-state-card {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(123, 63, 82, 0.18);
+    border-radius: 18px;
+    padding: 48px 40px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 8px 40px rgba(123, 63, 82, 0.12);
 }
 
-.fancy-invite-stage-loading {
-    height: auto;
-    min-height: auto;
+.invite-state-card h2 {
+    font-family: var(--font-serif);
+    font-size: 1.9rem;
+    font-weight: 400;
+    color: var(--rose);
+    margin: 0 0 10px;
+}
+
+.invite-state-card p {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--rose-mid);
+    margin: 0;
+}
+
+.invite-state-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-txt);
+    margin: 0 0 18px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(123, 63, 82, 0.18);
+    border-top-color: var(--rose);
+    border-radius: 50%;
+    margin: 0 auto 26px;
+    animation: spin 1.1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SHARED SECTION WRAPPER
+═══════════════════════════════════════════════════════ */
+.personal-invite-section {
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
+    align-items: stretch;
 }
 
-.fancy-invite-large-card {
-    position: absolute;
-    top: 0;
-    right: 8%;
-    width: min(420px, 38vw);
-    height: 100%;
-    background: #c99595;
-    color: #f8f0ea;
-    padding: 30px 28px 28px;
-    box-shadow: 0 18px 42px rgba(96, 74, 74, 0.18);
+/* ═══════════════════════════════════════════════════════
+   MOBILE LAYOUT  ≤ 900 px
+   Background IS the invitation card. Text floats on it.
+═══════════════════════════════════════════════════════ */
+.invite-mobile {
+    display: none;
+    width: 100%;
+    /* Match the portrait aspect ratio of mobile-bg.png */
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.mobile-content-wrap {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    box-sizing: border-box;
-    overflow: hidden;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+
+    /* Vertical zones match the image's visual layout:
+       top decorative band → text → empty center → bottom text */
+    padding-top: clamp(50%, 55vw, 62%);  /* skip chandelier/wreath area */
+    padding-bottom: clamp(28px, 8vw, 52px);
+    padding-left: clamp(22px, 8vw, 44px);
+    padding-right: clamp(22px, 8vw, 44px);
 }
 
-.fancy-large-topnote {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    line-height: 1.65;
-    letter-spacing: 0.12em;
+/* ── "You're invited" sub-headline ─────────────────── */
+.m-kicker {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(14px, 4.2vw, 19px);
+    color: var(--rose-mid);
+    text-align: center;
+    margin: 0 0 10px;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
+/* ── Guest name ─────────────────────────────────────── */
+.m-guest-label {
+    font-family: var(--font-sans);
+    font-size: clamp(8px, 2.4vw, 11px);
+    font-weight: 600;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(248, 240, 234, 0.88);
-    margin-bottom: 20px;
+    color: var(--gold-txt);
+    text-align: center;
+    margin: 12px 0 4px;
 }
 
-.fancy-large-couple {
-    margin: 0;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 25px;
-    line-height: 1.02;
-    letter-spacing: 0.06em;
-    color: #f8f0ea;
+.m-guest-name {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(18px, 5.5vw, 26px);
+    color: var(--rose);
+    text-align: center;
+    margin: 0 0 2px;
+    overflow-wrap: anywhere;
 }
 
-.fancy-large-divider {
-    width: 72px;
-    height: 1px;
-    background: rgba(248, 240, 234, 0.45);
-    margin: 18px 0 22px;
-}
-
-.fancy-large-block {
-    margin-bottom: 18px;
-}
-
-.fancy-label {
-    margin: 0 0 6px 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 10px;
-    line-height: 1.35;
+.m-guest-count {
+    font-family: var(--font-sans);
+    font-size: clamp(8px, 2.4vw, 10px);
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(248, 240, 234, 0.78);
-}
-
-.fancy-value {
+    color: var(--rose-light);
+    text-align: center;
     margin: 0;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(18px, 1.8vw, 26px);
-    line-height: 1.3;
-    color: #fff7f2;
-    overflow-wrap: anywhere;
 }
 
-.fancy-guest-name {
-    font-size: clamp(22px, 2.4vw, 30px);
-    line-height: 1.2;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+/* ── Empty center spacer where QR sits ─────────────── */
+.m-qr-zone {
+    margin: clamp(14px, 4vw, 22px) 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
 }
 
-.fancy-subvalue {
-    margin: 6px 0 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: clamp(13px, 1.15vw, 16px);
-    line-height: 1.45;
-    color: rgba(255, 247, 242, 0.88);
-    overflow-wrap: anywhere;
-    word-break: break-word;
+.m-qr-frame {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 12px;
+    border: 1px solid rgba(123, 63, 82, 0.18);
+    box-shadow: 0 4px 20px rgba(123, 63, 82, 0.14);
+    line-height: 0;
 }
 
-.fancy-maps-link {
-    margin-top: auto;
-    align-self: flex-start;
+.m-qr-note {
+    font-family: var(--font-sans);
+    font-size: clamp(8px, 2.4vw, 10px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rose-light);
+    text-align: center;
+    margin: 0;
+}
+
+/* ── Date / venue block ─────────────────────────────── */
+.m-date-line {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(18px, 5.5vw, 26px);
+    color: var(--rose);
+    text-align: center;
+    margin: 0 0 4px;
+    letter-spacing: 0.02em;
+}
+
+.m-heart-ornament {
+    font-size: clamp(14px, 4vw, 18px);
+    color: var(--rose-mid);
+    text-align: center;
+    margin: 0 0 4px;
+    letter-spacing: 0.3em;
+}
+
+.m-venue-line {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(17px, 5.2vw, 24px);
+    color: var(--rose);
+    text-align: center;
+    margin: 0;
+    line-height: 1.35;
+}
+
+.m-time-line {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(16px, 4.8vw, 22px);
+    color: var(--rose);
+    text-align: center;
+    margin: 2px 0 0;
+}
+
+/* ── Maps button ─────────────────────────────────────── */
+.inv-maps-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 42px;
-    padding: 0 18px;
-    border: 1px solid rgba(248, 240, 234, 0.4);
+    gap: 7px;
+    margin-top: clamp(16px, 4vw, 26px);
+    padding: 13px 36px;
+    border: 1px solid rgba(123, 63, 82, 0.35);
     border-radius: 999px;
     text-decoration: none;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #fff7f2;
-    background: rgba(255, 255, 255, 0.06);
-    transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
-    white-space: nowrap;
+    color: var(--rose-deep);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: var(--transition);
+    cursor: pointer;
+    width: 100%;
+    max-width: 260px;
 }
 
-.fancy-maps-link:hover {
-    transform: translateY(-1px);
-    background: rgba(255, 255, 255, 0.12);
-    opacity: 0.98;
+.inv-maps-btn:hover {
+    background: rgba(255, 255, 255, 0.68);
+    border-color: var(--rose);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 18px rgba(123, 63, 82, 0.18);
+    color: var(--rose-deep);
 }
 
-.fancy-invite-small-card {
-    position: absolute;
-    left: 12%;
-    top: 40%;
-    transform: translateY(-30%);
-    width: min(470px, 42vw);
-    min-height: 320px;
-    background: #fbfbfa;
-    color: #b9ae8e;
-    box-shadow: 0 20px 36px rgba(88, 76, 70, 0.14);
-    padding: 28px 24px 24px;
+/* ═══════════════════════════════════════════════════════
+   DESKTOP LAYOUT  ≥ 901 px
+   laptop-bg.png fills viewport; same no-card philosophy
+═══════════════════════════════════════════════════════ */
+.invite-desktop {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    align-items: center;
+    justify-content: flex-end;   /* details lean right matching original */
+}
+
+/* Two-column content area floated over background */
+.desktop-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(32px, 5vh, 60px) clamp(16px, 3vw, 40px);
+    gap: clamp(24px, 4vw, 60px);
+}
+
+/* ── Shared text column ─────────────────────────────── */
+.d-col {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    box-sizing: border-box;
 }
 
-.fancy-small-kicker {
-    margin: 0 0 14px 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
+.d-details-col {
+    flex: 0 0 auto;
+    width: clamp(260px, 30%, 400px);
+    padding: 0;
+}
+
+.d-qr-col {
+    flex: 0 0 auto;
+    width: clamp(200px, 24%, 300px);
+    align-self: center;
+}
+
+/* ── Desktop typography (same rose-brown palette) ─── */
+.d-kicker {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(13px, 1vw, 17px);
+    color: var(--rose-mid);
     line-height: 1.6;
-    letter-spacing: 0.06em;
-    color: #b9ae8e;
+    margin: 0 0 14px;
+    letter-spacing: 0.01em;
 }
 
-.fancy-small-monogram {
-    margin-bottom: 14px;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(30px, 3vw, 46px);
-    line-height: 1;
-    letter-spacing: 0.18em;
-    color: #b9ae8e;
+.d-couple-name {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(24px, 2.4vw, 40px);
+    color: var(--rose);
+    line-height: 1.15;
+    margin: 0 0 6px;
+    letter-spacing: 0.02em;
 }
 
-.fancy-small-guest-meta {
-    margin-bottom: 18px;
+.d-ampersand {
+    display: block;
+    font-weight: 300;
+    font-size: 0.75em;
+    color: var(--rose-mid);
+    margin: 4px 0;
+    letter-spacing: 0.1em;
 }
 
-.fancy-small-guest-meta p {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #b9ae8e;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+.d-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(123,63,82,0.4), transparent);
+    border: none;
+    margin: 16px auto 20px;
 }
 
-.fancy-small-qr-frame {
-    padding: 12px;
-    background: #ffffff;
-    border: 1px solid rgba(185, 174, 142, 0.28);
-    box-shadow: 0 8px 18px rgba(130, 120, 98, 0.08);
-    margin-bottom: 14px;
-}
-
-.fancy-small-note {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 10px;
-    line-height: 1.5;
-    letter-spacing: 0.06em;
+.d-detail-label {
+    font-family: var(--font-sans);
+    font-size: clamp(8px, 0.6vw, 10px);
+    font-weight: 600;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #b9ae8e;
+    color: var(--gold-txt);
+    margin: 0 0 4px;
 }
 
-@media (max-width: 1100px) {
-    .personal-invite-section {
-        height: auto;
-        min-height: auto;
-        padding: 60px 18px 80px;
-        overflow: visible;
-    }
-
-    .fancy-invite-stage {
-        min-height: auto;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        align-items: center;
-    }
-
-    .fancy-invite-large-card,
-    .fancy-invite-small-card {
-        position: relative;
-        inset: auto;
-        transform: none;
-        width: 100%;
-        max-width: 560px;
-        height: auto;
-    }
-
-    .fancy-invite-small-card {
-        order: 2;
-        min-height: auto;
-    }
-
-    .fancy-invite-large-card {
-        order: 1;
-    }
+.d-detail-value {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(18px, 1.7vw, 28px);
+    color: var(--rose);
+    margin: 0;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
 }
 
-@media (max-width: 768px) {
-    .fancy-invite-large-card {
-        padding: 26px 18px 22px;
-    }
-
-    .fancy-invite-small-card {
-        padding: 24px 16px 20px;
-    }
-
-    .fancy-large-topnote,
-    .fancy-small-kicker {
-        font-size: 10px;
-    }
-
-    .fancy-maps-link {
-        width: 100%;
-        justify-content: center;
-    }
+.d-detail-value.guest-name {
+    font-size: clamp(20px, 2vw, 32px);
+    font-weight: 400;
 }
 
-@media (max-width: 480px) {
-    .personal-invite-section {
-        padding: 44px 12px 64px;
-    }
-
-    .fancy-large-block {
-        margin-bottom: 16px;
-    }
-
-    .fancy-small-qr-frame canvas,
-    .fancy-small-qr-frame svg {
-        width: 148px !important;
-        height: 148px !important;
-    }
+.d-detail-sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(14px, 1.2vw, 20px);
+    color: var(--rose-mid);
+    margin: 2px 0 0;
 }
 
-/* ── MOBILE (≤ 600px) ── */
-@media (max-width: 600px) {
-    .personal-invite-section {
-        height: auto;
-        min-height: 100vh;
-        padding: 32px 14px 56px;
-        overflow: visible;
-        align-items: flex-start;
+.d-detail-group {
+    margin-bottom: 18px;
+    width: 100%;
+}
+
+.d-heart-ornament {
+    font-size: clamp(12px, 1vw, 16px);
+    color: var(--rose-mid);
+    letter-spacing: 0.3em;
+    margin: -10px 0 8px;
+}
+
+.d-allowed-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(123, 63, 82, 0.3);
+    background: rgba(255,255,255,0.4);
+    font-family: var(--font-serif);
+    font-size: clamp(17px, 1.6vw, 24px);
+    color: var(--rose);
+    margin-top: 4px;
+}
+
+/* ── Desktop QR column ──────────────────────────────── */
+.d-qr-kicker {
+    font-family: var(--font-sans);
+    font-size: clamp(8px, 0.6vw, 10px);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-txt);
+    line-height: 1.8;
+    margin: 0 0 10px;
+    text-align: center;
+}
+
+.d-monogram {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(26px, 2.4vw, 40px);
+    font-weight: 400;
+    color: var(--rose);
+    margin: 0 0 4px;
+    letter-spacing: 0.15em;
+    text-align: center;
+}
+
+.d-qr-guest-name {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(13px, 1.1vw, 18px);
+    color: var(--rose-mid);
+    margin: 0 0 2px;
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+
+.d-qr-guest-count {
+    font-family: var(--font-sans);
+    font-size: clamp(8px, 0.62vw, 10px);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-txt);
+    margin: 0 0 16px;
+    text-align: center;
+}
+
+.d-qr-frame {
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 12px;
+    border: 1px solid rgba(123, 63, 82, 0.18);
+    box-shadow: 0 4px 24px rgba(123, 63, 82, 0.14);
+    margin-bottom: 14px;
+    line-height: 0;
+}
+
+.d-qr-note {
+    font-family: var(--font-sans);
+    font-size: clamp(8px, 0.62vw, 10px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rose-light);
+    margin: 0;
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+═══════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+    .invite-desktop {
+        display: none !important;
     }
 
-    .fancy-invite-stage {
-        width: 100%;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        align-items: center;
-    }
-
-    /* Remove absolute positioning — both cards stack naturally */
-    .fancy-invite-large-card,
-    .fancy-invite-small-card {
-        position: relative;
-        inset: auto;
-        transform: none;
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-    }
-
-    .fancy-invite-large-card {
-        order: 1;
-        padding: 22px 18px 20px;
-    }
-
-    .fancy-invite-small-card {
-        order: 2;
-        min-height: auto;
-        padding: 22px 16px 20px;
-    }
-
-    /* Tighter typography */
-    .fancy-large-couple {
-        font-size: 20px;
-    }
-
-    .fancy-value {
-        font-size: 17px;
-    }
-
-    .fancy-guest-name {
-        font-size: 20px;
-    }
-
-    .fancy-small-monogram {
-        font-size: 32px;
-    }
-
-    /* Full-width Maps button on mobile */
-    .fancy-maps-link {
-        width: 90%;
-        justify-content: center;
-        margin-top: 12px;
-    }
-
-    /* Slightly smaller QR */
-    .fancy-small-qr-frame canvas,
-    .fancy-small-qr-frame svg {
-        width: 140px !important;
-        height: 140px !important;
-    }
-
-    /* Tighter blocks */
-    .fancy-large-block {
-        margin-bottom: 14px;
-    }
-
-    .fancy-large-divider {
-        margin: 12px 0 16px;
+    .invite-mobile {
+        display: block;
     }
 }
 
-/* ── VERY SMALL (≤ 380px) ── */
 @media (max-width: 380px) {
-    .personal-invite-section {
-        padding: 24px 10px 48px;
+    .mobile-content-wrap {
+        padding-left: 16px;
+        padding-right: 16px;
     }
+}
 
-    .fancy-large-couple {
-        font-size: 18px;
-    }
+/* ═══════════════════════════════════════════════════════
+   ENTRANCE ANIMATIONS
+═══════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
 
-    .fancy-value {
-        font-size: 15px;
-    }
+.mobile-content-wrap > * {
+    animation: fadeUp 0.6s ease both;
+}
 
-    .fancy-guest-name {
-        font-size: 18px;
-    }
+.mobile-content-wrap > *:nth-child(1) { animation-delay: 0.05s; }
+.mobile-content-wrap > *:nth-child(2) { animation-delay: 0.12s; }
+.mobile-content-wrap > *:nth-child(3) { animation-delay: 0.18s; }
+.mobile-content-wrap > *:nth-child(4) { animation-delay: 0.24s; }
+.mobile-content-wrap > *:nth-child(5) { animation-delay: 0.30s; }
+.mobile-content-wrap > *:nth-child(6) { animation-delay: 0.36s; }
+
+.d-details-col {
+    animation: fadeUp 0.65s 0.05s ease both;
+}
+
+.d-qr-col {
+    animation: fadeUp 0.65s 0.15s ease both;
 }

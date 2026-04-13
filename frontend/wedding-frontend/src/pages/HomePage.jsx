@@ -4,6 +4,19 @@ import { QRCodeCanvas } from "qrcode.react";
 import api from "../api/client";
 import "./HomePage.css";
 
+import laptopBg from "../../assets/laptop-bg.png";
+import mobileBg from "../../assets/mobile-bg.png";
+
+function MapPinIcon() {
+    return (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+        </svg>
+    );
+}
+
 export default function HomePage() {
     const [searchParams] = useSearchParams();
     const inviteUuid = searchParams.get("invite");
@@ -12,7 +25,8 @@ export default function HomePage() {
     const [loadingInvitation, setLoadingInvitation] = useState(false);
     const [inviteError, setInviteError] = useState("");
 
-    const mapsUrl = "https://maps.app.goo.gl/Mk5BAzDqCqheCNJL6"
+    const mapsUrl = "https://maps.app.goo.gl/Mk5BAzDqCqheCNJL6";
+
     useEffect(() => {
         async function fetchInvitation() {
             if (!inviteUuid) {
@@ -20,7 +34,6 @@ export default function HomePage() {
                 setInviteError("");
                 return;
             }
-
             try {
                 setLoadingInvitation(true);
                 setInviteError("");
@@ -29,121 +42,194 @@ export default function HomePage() {
             } catch (error) {
                 console.error("Failed to load invitation", error);
                 setInvitation(null);
-                setInviteError("We couldn’t find this personal invitation.");
+                setInviteError("We couldn't find this personal invitation.");
             } finally {
                 setLoadingInvitation(false);
             }
         }
-
         fetchInvitation();
     }, [inviteUuid]);
 
     return (
         <div className="home-page">
+
+            {/* ── Loading ─────────────────────────────────────── */}
             {loadingInvitation && (
-                <section className="personal-invite-section">
-                    <div className="fancy-invite-stage fancy-invite-stage-loading">
-                        <div className="fancy-invite-large-card">
-                            <h2 className="fancy-large-couple">Loading your invitation...</h2>
-                        </div>
+                <div className="invite-state-shell">
+                    <div className="invite-state-card">
+                        <div className="loading-spinner" />
+                        <h2>Preparing your invitation…</h2>
+                        <p>Just a moment, please</p>
                     </div>
-                </section>
+                </div>
             )}
 
-            {inviteError && (
-                <section className="personal-invite-section">
-                    <div className="fancy-invite-stage fancy-invite-stage-loading">
-                        <div className="fancy-invite-large-card">
-                            <p className="fancy-label">Invitation Notice</p>
-                            <h2 className="fancy-large-couple">Invitation not found</h2>
-                            <p className="fancy-subvalue">{inviteError}</p>
-                        </div>
+            {/* ── Error ───────────────────────────────────────── */}
+            {inviteError && !loadingInvitation && (
+                <div className="invite-state-shell">
+                    <div className="invite-state-card">
+                        <span className="invite-state-label">Invitation Notice</span>
+                        <h2>Invitation Not Found</h2>
+                        <p>{inviteError}</p>
                     </div>
-                </section>
+                </div>
             )}
 
+            {/* ── Invitation ──────────────────────────────────── */}
             {invitation && (
                 <section className="personal-invite-section">
-                    <div className="fancy-invite-stage">
-                        <div className="fancy-invite-large-card">
-                            <div className="fancy-large-topnote">
-                                You are warmly welcome to witness
-                                <br />
-                                and celebrate the wedding of
+
+                    {/* ════════════════════════════════════════════
+                        MOBILE  ≤ 900 px — mobile-bg.png
+                        Layout mirrors the reference image:
+                        skip decorative chandelier/wreath band → text →
+                        empty center (QR) → date/venue below
+                    ════════════════════════════════════════════ */}
+                    <div
+                        className="invite-mobile"
+                        style={{ backgroundImage: `url(${mobileBg})` }}
+                    >
+                        <div className="mobile-content-wrap">
+
+                            {/* "You're invited" */}
+                            <p className="m-kicker">
+                                You're invited to celebrate our wedding
+                            </p>
+
+                            {/* Couple names */}
+                            <h1 className="m-couple-name" style={{
+                                fontFamily: "var(--font-serif)",
+                                fontStyle: "italic",
+                                fontWeight: 600,
+                                fontSize: "clamp(22px, 6.5vw, 32px)",
+                                color: "var(--rose)",
+                                textAlign: "center",
+                                margin: "0 0 2px",
+                                lineHeight: 1.2,
+                                letterSpacing: "0.01em",
+                            }}>
+                                Waleed &amp; Habiba
+                            </h1>
+
+                            {/* QR code — center open area of the image */}
+                            <div className="m-qr-zone">
+                                <div className="m-qr-frame">
+                                    <QRCodeCanvas
+                                        value={invitation.id}
+                                        size={150}
+                                        bgColor="#ffffff"
+                                        fgColor="#7b3f52"
+                                        level="H"
+                                        includeMargin={false}
+                                    />
+                                </div>
+                                <p className="m-qr-note">Present at entrance</p>
                             </div>
 
-                            <h2 className="fancy-large-couple">WALEED & HABIBA</h2>
+                            {/* Date */}
+                            <p className="m-date-line">Saturday • 27th June</p>
 
-                            <div className="fancy-large-divider" />
+                            {/* Heart ornament */}
+                            <p className="m-heart-ornament">꩜❡꩜</p>
 
-                            <div className="fancy-large-block">
-                                <p className="fancy-label">Honored Guest</p>
-                                <p className="fancy-value fancy-guest-name">
-                                    {invitation.guest.full_name}
-                                </p>
-                            </div>
+                            {/* Venue */}
+                            <p className="m-venue-line">Sofitel Down Town</p>
+                            <p className="m-time-line">At 8:00 PM</p>
 
-                            <div className="fancy-large-block">
-                                <p className="fancy-label">On Saturday</p>
-                                <p className="fancy-value">June 27, 2026</p>
-                                <p className="fancy-value">at 8:00 PM</p>
-                            </div>
-
-                            <div className="fancy-large-block">
-                                <p className="fancy-label">At</p>
-                                <p className="fancy-value">Sofitel down town</p>
-                            </div>
-
-                            <div className="fancy-large-block">
-                                <p className="fancy-label">Allowed Guests</p>
-                                <p className="fancy-value">
-                                    {invitation.guest.allowed_guests}
-                                </p>
-                            </div>
-
+                            {/* Maps button */}
                             <a
                                 href={mapsUrl}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="fancy-maps-link"
+                                className="inv-maps-btn"
                             >
+                                <MapPinIcon />
                                 Open Maps
                             </a>
-                        </div>
 
-                        <div className="fancy-invite-small-card">
-                            <p className="fancy-small-kicker">
-                                Find your personal invitation
-                                <br />
-                                and entry QR code here
-                            </p>
-
-                            <div className="fancy-small-monogram">W&nbsp; & &nbsp;H</div>
-
-                            <div className="fancy-small-guest-meta">
-                                <p>{invitation.guest.full_name}</p>
-                                <p>
-                                    {invitation.guest.allowed_guests} guest
-                                    {invitation.guest.allowed_guests > 1 ? "s" : ""} allowed
-                                </p>
-                            </div>
-
-                            <div className="fancy-small-qr-frame">
-                                <QRCodeCanvas
-                                    value={invitation.id}
-                                    size={170}
-                                    bgColor="#ffffff"
-                                    fgColor="#b9ae8e"
-                                    level="H"
-                                    includeMargin={true}
-                                />
-                            </div>
-
-                            <p className="fancy-small-note">
-                                Please present this QR code at the entrance
-                            </p>
                         </div>
                     </div>
+
+                    {/* ════════════════════════════════════════════
+                        DESKTOP  ≥ 901 px — laptop-bg.png
+                        Same rose-brown palette, no glass cards,
+                        QR column left · details column right
+                    ════════════════════════════════════════════ */}
+                    <div
+                        className="invite-desktop"
+                        style={{ backgroundImage: `url(${laptopBg})` }}
+                    >
+                        <div className="desktop-inner">
+
+                            {/* QR column — left */}
+                            <div className="d-col d-qr-col">
+                                <p className="d-qr-kicker">
+                                    Your personal invitation<br />
+                                    &amp; entry QR code
+                                </p>
+
+                                <div className="d-monogram">W &amp; H</div>
+
+                                <hr className="d-divider" />
+
+                                <div className="d-qr-frame">
+                                    <QRCodeCanvas
+                                        value={invitation.id}
+                                        size={160}
+                                        bgColor="#ffffff"
+                                        fgColor="#7b3f52"
+                                        level="H"
+                                        includeMargin={false}
+                                    />
+                                </div>
+
+                                <p className="d-qr-note">Present this QR code at the entrance</p>
+                            </div>
+
+                            {/* Details column — right */}
+                            <div className="d-col d-details-col">
+                                <p className="d-kicker">
+                                    You're invited to celebrate our wedding
+                                </p>
+
+                                <h1 className="d-couple-name">
+                                    Waleed &amp; Habiba
+                                </h1>
+
+                                <hr className="d-divider" />
+
+                                <div className="d-detail-group">
+                                    <p className="d-detail-label">Date</p>
+                                    <p className="d-detail-value">Saturday · 27th June</p>
+                                    <p className="d-detail-sub">At 8:00 PM</p>
+                                </div>
+
+                                <div className="d-detail-group">
+                                    <p className="d-detail-label">Venue</p>
+                                    <p className="d-detail-value">Sofitel Downtown</p>
+                                </div>
+
+                                <div className="d-detail-group">
+                                    <p className="d-detail-label">Allowed Guests</p>
+                                    <div className="d-allowed-badge">
+                                        {invitation.guest.allowed_guests}
+                                    </div>
+                                </div>
+
+                                <a
+                                    href={mapsUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="inv-maps-btn"
+                                >
+                                    <MapPinIcon />
+                                    Open Maps
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </section>
             )}
         </div>
