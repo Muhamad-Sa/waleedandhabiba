@@ -57,5 +57,17 @@ class ScanInvitationView(APIView):
             device_info=request.headers.get('User-Agent', ''),
         )
 
+        serializer = InvitationQRSerializer(qr)
+
         return Response(
+            {
+                'status': 'already_checked_in' if duplicate else 'success',
+                'message': (
+                    'This invitation was already scanned before.'
+                    if duplicate
+                    else 'Invitation scanned successfully.'
+                ),
+                'invitation': serializer.data,
+            },
+            status=status.HTTP_200_OK,
         )

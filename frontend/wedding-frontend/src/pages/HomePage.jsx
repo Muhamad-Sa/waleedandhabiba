@@ -26,6 +26,7 @@ export default function HomePage() {
     const [inviteError, setInviteError] = useState("");
 
     const mapsUrl = "https://maps.app.goo.gl/Mk5BAzDqCqheCNJL6";
+    const scanUrl = invitation ? `${window.location.origin}/scan/${invitation.id}` : "";
 
     useEffect(() => {
         async function fetchInvitation() {
@@ -52,6 +53,57 @@ export default function HomePage() {
 
     return (
         <div className="home-page">
+            {!inviteUuid && !loadingInvitation && !inviteError && !invitation && (
+                <section className="home-landing">
+                    <div className="home-landing-glow home-landing-glow-left" />
+                    <div className="home-landing-glow home-landing-glow-right" />
+
+                    <div className="home-landing-inner">
+                        <div className="home-landing-copy">
+                            <p className="home-landing-eyebrow">Wedding Celebration</p>
+                            <h1 className="home-landing-title">Waleed &amp; Habiba</h1>
+                            <p className="home-landing-subtitle">
+                                A joyful evening of love, family, and celebration.
+                            </p>
+
+                            <div className="home-landing-details">
+                                <div className="home-detail-card">
+                                    <span className="home-detail-label">Date</span>
+                                    <strong>Saturday, 27 June</strong>
+                                    <p>Reception begins at 8:00 PM</p>
+                                </div>
+                                <div className="home-detail-card">
+                                    <span className="home-detail-label">Venue</span>
+                                    <strong>Sofitel Downtown</strong>
+                                    <p>Join us for a beautiful evening together</p>
+                                </div>
+                            </div>
+
+                            <a
+                                href={mapsUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inv-maps-btn home-landing-button"
+                            >
+                                <MapPinIcon />
+                                Open Maps
+                            </a>
+                        </div>
+
+                        <div className="home-landing-panel">
+                            <p className="home-panel-kicker">Invitation Access</p>
+                            <h2 className="home-panel-title">Your personal invite appears here</h2>
+                            <p className="home-panel-text">
+                                Open your private link with <code>?invite=your-uuid</code> to view your
+                                QR code and allowed guest count.
+                            </p>
+                            <div className="home-panel-note">
+                                Scan links are generated automatically for usher check-in.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* ── Loading ─────────────────────────────────────── */}
             {loadingInvitation && (
@@ -93,7 +145,7 @@ export default function HomePage() {
 
                             {/* "You're invited" */}
                             <p className="m-kicker">
-                                You're invited to celebrate our wedding
+                                You&apos;re invited to celebrate our wedding
                             </p>
 
                             {/* Couple names */}
@@ -115,7 +167,7 @@ export default function HomePage() {
                             <div className="m-qr-zone">
                                 <div className="m-qr-frame">
                                     <QRCodeCanvas
-                                        value={invitation.id}
+                                        value={scanUrl}
                                         size={150}
                                         bgColor="#ffffff"
                                         fgColor="#7b3f52"
@@ -174,7 +226,7 @@ export default function HomePage() {
 
                                 <div className="d-qr-frame">
                                     <QRCodeCanvas
-                                        value={invitation.id}
+                                        value={scanUrl}
                                         size={160}
                                         bgColor="#ffffff"
                                         fgColor="#7b3f52"
@@ -189,7 +241,7 @@ export default function HomePage() {
                             {/* Details column — right */}
                             <div className="d-col d-details-col">
                                 <p className="d-kicker">
-                                    You're invited to celebrate our wedding
+                                    You&apos;re invited to celebrate our wedding
                                 </p>
 
                                 <h1 className="d-couple-name">

@@ -1,0 +1,366 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@400;500;600;700&display=swap");
+
+.scanner-page {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at top left, rgba(177, 138, 96, 0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(123, 63, 82, 0.22), transparent 34%),
+        linear-gradient(145deg, #f5e7de 0%, #f0ddd3 44%, #fcf7f2 100%);
+    padding: 28px 18px 40px;
+    color: #522837;
+}
+
+.scanner-page__glow {
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    filter: blur(18px);
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.scanner-page__glow--left {
+    top: -120px;
+    left: -120px;
+    background: rgba(177, 138, 96, 0.24);
+}
+
+.scanner-page__glow--right {
+    right: -140px;
+    bottom: -140px;
+    background: rgba(123, 63, 82, 0.2);
+}
+
+.scanner-shell {
+    position: relative;
+    z-index: 1;
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+.scanner-intro {
+    max-width: 720px;
+    margin-bottom: 24px;
+}
+
+.scanner-intro__eyebrow,
+.scanner-card__eyebrow,
+.scanner-result__badge,
+.scanner-input-group span,
+.scanner-result__grid span {
+    font-family: "Montserrat", Arial, sans-serif;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.scanner-intro__eyebrow,
+.scanner-card__eyebrow {
+    margin: 0 0 10px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #a0784e;
+}
+
+.scanner-intro__title,
+.scanner-card__title,
+.scanner-result h3 {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    color: #7b3f52;
+}
+
+.scanner-intro__title {
+    font-size: clamp(3rem, 8vw, 5rem);
+    line-height: 0.92;
+}
+
+.scanner-intro__text {
+    max-width: 52ch;
+    margin: 14px 0 0;
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #815969;
+}
+
+.scanner-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.9fr);
+    gap: 24px;
+}
+
+.scanner-card {
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.48);
+    background: rgba(255, 251, 246, 0.74);
+    box-shadow: 0 22px 60px rgba(82, 40, 55, 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 26px;
+}
+
+.scanner-card--result {
+    display: flex;
+    flex-direction: column;
+}
+
+.scanner-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.scanner-card__title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 0.95;
+}
+
+.scanner-button {
+    border: none;
+    border-radius: 999px;
+    padding: 13px 20px;
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff8f3;
+    background: linear-gradient(135deg, #7b3f52, #a36578);
+    box-shadow: 0 10px 30px rgba(123, 63, 82, 0.22);
+}
+
+.scanner-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.scanner-button--soft {
+    background: linear-gradient(135deg, #8a6b55, #b18a60);
+}
+
+.scanner-reader-shell {
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+    border-radius: 26px;
+    border: 1px solid rgba(123, 63, 82, 0.14);
+    background:
+        linear-gradient(180deg, rgba(123, 63, 82, 0.08), rgba(123, 63, 82, 0.02)),
+        #fff;
+}
+
+.scanner-reader {
+    min-height: 360px;
+}
+
+.scanner-reader video {
+    border-radius: 20px;
+}
+
+.scanner-reader__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(253, 248, 242, 0.82));
+}
+
+.scanner-reader__placeholder span {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 2rem;
+    color: #7b3f52;
+}
+
+.scanner-reader__placeholder p,
+.scanner-empty-state span,
+.scanner-result__message,
+.scanner-result__footnote,
+.scanner-error {
+    font-family: "Montserrat", Arial, sans-serif;
+    line-height: 1.8;
+}
+
+.scanner-reader__placeholder p {
+    margin: 10px 0 0;
+    max-width: 26ch;
+    color: #8b6675;
+}
+
+.scanner-manual-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.scanner-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.scanner-input-group span {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #a0784e;
+}
+
+.scanner-input-group input {
+    width: 100%;
+    border: 1px solid rgba(123, 63, 82, 0.16);
+    border-radius: 18px;
+    padding: 16px 18px;
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 0.95rem;
+    color: #522837;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.scanner-empty-state {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 24px;
+    border: 1px dashed rgba(123, 63, 82, 0.18);
+    background: rgba(255, 255, 255, 0.52);
+    padding: 36px 24px;
+}
+
+.scanner-empty-state p {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 2.1rem;
+    color: #7b3f52;
+}
+
+.scanner-empty-state span {
+    margin-top: 8px;
+    max-width: 30ch;
+    color: #8b6675;
+}
+
+.scanner-error {
+    margin: 18px 0 0;
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: rgba(155, 75, 82, 0.1);
+    color: #9b4b52;
+}
+
+.scanner-result {
+    margin-top: 18px;
+    padding: 22px;
+    border-radius: 24px;
+}
+
+.scanner-result--success {
+    background: rgba(78, 122, 97, 0.1);
+    border: 1px solid rgba(78, 122, 97, 0.18);
+}
+
+.scanner-result--duplicate {
+    background: rgba(155, 75, 82, 0.1);
+    border: 1px solid rgba(155, 75, 82, 0.18);
+}
+
+.scanner-result__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.66);
+    color: #7b3f52;
+}
+
+.scanner-result h3 {
+    margin-top: 18px;
+    font-size: clamp(2.2rem, 5vw, 3.3rem);
+    line-height: 0.95;
+}
+
+.scanner-result__message {
+    margin: 12px 0 0;
+    color: #6d4e5c;
+}
+
+.scanner-result__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.scanner-result__grid div {
+    padding: 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.62);
+}
+
+.scanner-result__grid span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #a0784e;
+}
+
+.scanner-result__grid strong {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #7b3f52;
+}
+
+.scanner-result__footnote {
+    margin: 18px 0 0;
+    color: #6d4e5c;
+}
+
+@media (max-width: 900px) {
+    .scanner-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .scanner-card__header {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 640px) {
+    .scanner-page {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .scanner-card {
+        padding: 18px;
+        border-radius: 24px;
+    }
+
+    .scanner-manual-form,
+    .scanner-result__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .scanner-reader,
+    .scanner-reader-shell {
+        min-height: 300px;
+    }
+}
