@@ -4,15 +4,15 @@ import api from "../api/client";
 import "./AdminCheckinPage.css";
 
 const SCANNER_REGION_ID = "usher-qr-reader";
-const UUID_PATTERN =
-    /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/i;
+const SHORT_CODE_PATTERN = /[A-Z0-9]{8}/i;
 
-function extractInvitationUuid(value) {
+function extractInvitationCode(value) {
     if (!value) {
         return "";
     }
 
-    const match = value.match(UUID_PATTERN);
+    const trimmedValue = value.trim().toUpperCase();
+    const match = trimmedValue.match(SHORT_CODE_PATTERN);
     return match ? match[0] : "";
 }
 
@@ -50,9 +50,9 @@ export default function AdminCheckinPage() {
     }
 
     async function submitScan(rawValue) {
-        const uuid = extractInvitationUuid(rawValue);
+        const shortCode = extractInvitationCode(rawValue);
 
-        if (!uuid) {
+        if (!shortCode) {
             setError("No valid invitation code was found in that scan.");
             return;
         }
@@ -60,10 +60,10 @@ export default function AdminCheckinPage() {
         setIsSubmitting(true);
         setError("");
         setResult(null);
-        setManualValue(uuid);
+        setManualValue(shortCode);
 
         try {
-            const response = await api.post(`/invitations/${uuid}/scan/`);
+            const response = await api.post(`/invitations/scan/${shortCode}/`);
             setResult(response.data);
         } catch {
             setError("QR not found or invalid.");
@@ -126,7 +126,6 @@ export default function AdminCheckinPage() {
         };
     }, []);
 
-    const guest = result?.invitation?.guest;
     const isDuplicate = result?.status === "already_checked_in";
 
     return (
@@ -140,7 +139,7 @@ export default function AdminCheckinPage() {
                     <h1 className="scanner-intro__title">Entrance Scanner</h1>
                     <p className="scanner-intro__text">
                         Open this page on the usher&apos;s phone, allow camera access, and scan each
-                        invitation QR code to mark it as used.
+                        invitation QR code to check whether it is new or has already been used.
                     </p>
                 </div>
 
@@ -180,7 +179,7 @@ export default function AdminCheckinPage() {
                                 <span>Manual fallback</span>
                                 <input
                                     type="text"
-                                    placeholder="Paste a full scan URL or invitation UUID"
+                                    placeholder="Paste the 8-character invitation code"
                                     value={manualValue}
                                     onChange={(event) => setManualValue(event.target.value)}
                                 />
@@ -198,7 +197,7 @@ export default function AdminCheckinPage() {
 
                     <div className="scanner-card scanner-card--result">
                         <p className="scanner-card__eyebrow">Scan Result</p>
-                        <h2 className="scanner-card__title">Guest status</h2>
+                        <h2 className="scanner-card__title">Scan status</h2>
 
                         {error && <p className="scanner-error">{error}</p>}
 
@@ -209,30 +208,30 @@ export default function AdminCheckinPage() {
                             </div>
                         )}
 
-                        {result && guest && (
+                        {result && (
                             <div className={`scanner-result ${isDuplicate ? "scanner-result--duplicate" : "scanner-result--success"}`}>
                                 <span className="scanner-result__badge">
                                     {isDuplicate ? "Already Checked In" : "Approved"}
                                 </span>
 
-                                <h3>{guest.full_name}</h3>
+                                <h3>{isDuplicate ? "Already scanned" : "Scanned now"}</h3>
                                 <p className="scanner-result__message">{result.message}</p>
 
                                 <div className="scanner-result__grid">
                                     <div>
-                                        <span>Allowed Guests</span>
-                                        <strong>{guest.allowed_guests}</strong>
+                                        <span>QR code</span>
+                                        <strong>{result.scan.short_code}</strong>
                                     </div>
                                     <div>
-                                        <span>Scan Count</span>
-                                        <strong>{result.invitation.scanned_count}</strong>
+                                        <span>Scan count</span>
+                                        <strong>{result.scan.scanned_count}</strong>
                                     </div>
                                 </div>
 
                                 <p className="scanner-result__footnote">
                                     {isDuplicate
-                                        ? "This invitation has already been used. Please confirm with the couple before entry."
-                                        : "This invitation is now marked as scanned in the system."}
+                                        ? "This QR code has already been used before."
+                                        : "This QR code has now been marked as scanned."}
                                 </p>
                             </div>
                         )}

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { QRCodeCanvas } from "qrcode.react";
 import api from "../api/client";
 import "./HomePage.css";
+import InvitationQRCode from "../components/InvitationQRCode";
 
 import laptopBg from "../../assets/laptop-bg.png";
 import mobileBg from "../../assets/mobile-bg.png";
@@ -26,7 +26,7 @@ export default function HomePage() {
     const [inviteError, setInviteError] = useState("");
 
     const mapsUrl = "https://maps.app.goo.gl/Mk5BAzDqCqheCNJL6";
-    const scanUrl = invitation ? `${window.location.origin}/scan/${invitation.id}` : "";
+    const qrValue = invitation?.short_code ?? "";
 
     useEffect(() => {
         async function fetchInvitation() {
@@ -92,13 +92,13 @@ export default function HomePage() {
 
                         <div className="home-landing-panel">
                             <p className="home-panel-kicker">Invitation Access</p>
-                            <h2 className="home-panel-title">Your personal invite appears here</h2>
+                            <h2 className="home-panel-title">Your private QR invitation appears here</h2>
                             <p className="home-panel-text">
-                                Open your private link with <code>?invite=your-uuid</code> to view your
-                                QR code and allowed guest count.
+                                Open your private link with <code>?invite=your-uuid</code> to view the
+                                wedding invitation and its private usher QR code.
                             </p>
                             <div className="home-panel-note">
-                                Scan links are generated automatically for usher check-in.
+                                The system tracks only the invitation UUID, short QR code, and scan count.
                             </div>
                         </div>
                     </div>
@@ -165,17 +165,12 @@ export default function HomePage() {
 
                             {/* QR code — center open area of the image */}
                             <div className="m-qr-zone">
-                                <div className="m-qr-frame">
-                                    <QRCodeCanvas
-                                        value={scanUrl}
-                                        size={150}
-                                        bgColor="#ffffff"
-                                        fgColor="#7b3f52"
-                                        level="H"
-                                        includeMargin={false}
-                                    />
-                                </div>
-                                <p className="m-qr-note">Present at entrance</p>
+                                <InvitationQRCode
+                                    value={qrValue}
+                                    size={150}
+                                    label="Private invitation"
+                                    note="Usher-only entrance scan"
+                                />
                             </div>
 
                             {/* Date */}
@@ -224,18 +219,12 @@ export default function HomePage() {
 
                                 <hr className="d-divider" />
 
-                                <div className="d-qr-frame">
-                                    <QRCodeCanvas
-                                        value={scanUrl}
-                                        size={160}
-                                        bgColor="#ffffff"
-                                        fgColor="#7b3f52"
-                                        level="H"
-                                        includeMargin={false}
-                                    />
-                                </div>
-
-                                <p className="d-qr-note">Present this QR code at the entrance</p>
+                                <InvitationQRCode
+                                    value={qrValue}
+                                    size={160}
+                                    label="Private invitation"
+                                    note="Usher-only entrance scan"
+                                />
                             </div>
 
                             {/* Details column — right */}
@@ -259,13 +248,6 @@ export default function HomePage() {
                                 <div className="d-detail-group">
                                     <p className="d-detail-label">Venue</p>
                                     <p className="d-detail-value">Sofitel Downtown</p>
-                                </div>
-
-                                <div className="d-detail-group">
-                                    <p className="d-detail-label">Allowed Guests</p>
-                                    <div className="d-allowed-badge">
-                                        {invitation.guest.allowed_guests}
-                                    </div>
                                 </div>
 
                                 <a

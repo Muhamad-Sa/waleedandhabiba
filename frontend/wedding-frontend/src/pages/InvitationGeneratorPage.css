@@ -1,0 +1,315 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@400;500;600;700&display=swap");
+
+.generator-page {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at top left, rgba(177, 138, 96, 0.16), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(123, 63, 82, 0.18), transparent 34%),
+        linear-gradient(145deg, #f6e7de 0%, #efddd3 44%, #fbf6f0 100%);
+    padding: 30px 18px 48px;
+    color: #522837;
+}
+
+.generator-page__glow {
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    filter: blur(20px);
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.generator-page__glow--left {
+    top: -120px;
+    left: -110px;
+    background: rgba(177, 138, 96, 0.24);
+}
+
+.generator-page__glow--right {
+    right: -130px;
+    bottom: -130px;
+    background: rgba(123, 63, 82, 0.18);
+}
+
+.generator-shell {
+    position: relative;
+    z-index: 1;
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+.generator-hero {
+    max-width: 720px;
+    margin-bottom: 24px;
+}
+
+.generator-hero__eyebrow,
+.generator-card__eyebrow,
+.generator-field span,
+.generator-link-block span {
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #a0784e;
+}
+
+.generator-hero__eyebrow,
+.generator-card__eyebrow {
+    margin: 0 0 10px;
+}
+
+.generator-hero__title,
+.generator-card__title,
+.generator-result__name {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    color: #7b3f52;
+}
+
+.generator-hero__title {
+    font-size: clamp(2.9rem, 7vw, 5.2rem);
+    line-height: 0.94;
+}
+
+.generator-hero__text,
+.generator-result__meta,
+.generator-empty span,
+.generator-error,
+.generator-link,
+.generator-link-block code {
+    font-family: "Montserrat", Arial, sans-serif;
+}
+
+.generator-hero__text {
+    margin: 14px 0 0;
+    max-width: 54ch;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #815969;
+}
+
+.generator-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 24px;
+}
+
+.generator-card {
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.52);
+    background: rgba(255, 251, 246, 0.76);
+    box-shadow: 0 24px 70px rgba(82, 40, 55, 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 26px;
+}
+
+.generator-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.generator-form--compact {
+    justify-content: center;
+}
+
+.generator-card__header {
+    margin-bottom: 6px;
+}
+
+.generator-card__title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 0.96;
+}
+
+.generator-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.generator-form__text {
+    margin: 0 0 8px;
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 0.98rem;
+    line-height: 1.9;
+    color: #815969;
+}
+
+.generator-field input {
+    width: 100%;
+    border: 1px solid rgba(123, 63, 82, 0.14);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.82);
+    padding: 15px 16px;
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 0.96rem;
+    color: #522837;
+}
+
+.generator-error {
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: rgba(155, 75, 82, 0.1);
+    color: #9b4b52;
+    line-height: 1.7;
+}
+
+.generator-button {
+    border: none;
+    border-radius: 999px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #7b3f52, #a36578);
+    color: #fff8f3;
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    box-shadow: 0 12px 30px rgba(123, 63, 82, 0.22);
+}
+
+.generator-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.generator-button--secondary {
+    background: linear-gradient(135deg, #8b6b57, #b18a60);
+}
+
+.generator-preview {
+    min-height: 100%;
+}
+
+.generator-empty {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 44px 22px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.52);
+    border: 1px dashed rgba(123, 63, 82, 0.16);
+}
+
+.generator-empty p {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 2rem;
+    color: #7b3f52;
+}
+
+.generator-empty span {
+    margin-top: 10px;
+    max-width: 34ch;
+    line-height: 1.8;
+    color: #866070;
+}
+
+.generator-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.generator-result__name {
+    font-size: clamp(2.3rem, 5vw, 3.5rem);
+    line-height: 0.95;
+}
+
+.generator-result__meta {
+    margin: 10px 0 0;
+    color: #815969;
+    line-height: 1.8;
+}
+
+.generator-result__qr {
+    margin-top: 20px;
+}
+
+.generator-link-block {
+    width: 100%;
+    margin-top: 22px;
+    padding: 18px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid rgba(123, 63, 82, 0.12);
+    text-align: left;
+}
+
+.generator-link-block span {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.generator-link-block code {
+    display: block;
+    overflow-wrap: anywhere;
+    color: #6d4e5c;
+    font-size: 0.94rem;
+    line-height: 1.8;
+}
+
+.generator-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+    justify-content: center;
+}
+
+.generator-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 20px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #7b3f52;
+    border: 1px solid rgba(123, 63, 82, 0.18);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 900px) {
+    .generator-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .generator-page {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .generator-card {
+        padding: 18px;
+        border-radius: 24px;
+    }
+
+    .generator-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .generator-link,
+    .generator-button {
+        width: 100%;
+    }
+}
