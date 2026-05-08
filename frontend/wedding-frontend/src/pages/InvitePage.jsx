@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { QRCodeCanvas } from "qrcode.react";
 import api from "../api/client";
+import InvitationQRCode from "../components/InvitationQRCode";
 
 export default function InvitePage() {
     const { uuid } = useParams();
@@ -35,22 +35,25 @@ export default function InvitePage() {
     if (loading) return <div style={styles.page}>Loading...</div>;
     if (error) return <div style={styles.page}>{error}</div>;
 
-    const guest = invitation.guest;
-
     return (
         <div style={styles.page}>
             <div style={styles.card}>
                 <p style={styles.kicker}>Wedding Invitation</p>
-                <h1 style={styles.title}>Welcome, {guest.full_name}</h1>
+                <h1 style={styles.title}>Waleed &amp; Habiba</h1>
 
                 <p style={styles.text}>You are invited to celebrate with us.</p>
-                <p style={styles.text}>Allowed guests: {guest.allowed_guests}</p>
+                <p style={styles.text}>This invitation is identified only by its private QR code.</p>
 
                 <div style={styles.qrBox}>
-                    <QRCodeCanvas value={invitation.id} size={220} />
+                    <InvitationQRCode
+                        value={invitation.short_code}
+                        size={220}
+                        label="Private invitation"
+                        note="Usher-only entrance scan"
+                    />
                 </div>
 
-                <p style={styles.uuid}>Invitation ID: {invitation.id}</p>
+                <p style={styles.uuid}>Invitation code: {invitation.short_code}</p>
 
                 <div style={styles.infoBox}>
                     <p>Date: 20 June 2026</p>
